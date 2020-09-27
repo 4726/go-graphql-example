@@ -83,12 +83,12 @@ func kClosestQuery() *graphql.Field {
 	}
 	args["x"] = &graphql.ArgumentConfig{
 		Type:         graphql.Float,
-		DefaultValue: 0,
+		DefaultValue: 0.0,
 		Description:  "X-Coordinate",
 	}
 	args["y"] = &graphql.ArgumentConfig{
 		Type:         graphql.Float,
-		DefaultValue: 0,
+		DefaultValue: 0.0,
 		Description:  "Y-Coordinate",
 	}
 
@@ -123,8 +123,8 @@ func spawnMutation() *graphql.Field {
 		Type: playerObject,
 		Args: args,
 		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-			id := spawn(p.Args["name"].(string), p.Args["x"].(float64), p.Args["y"].(float64))
-			return graphql.ID.ParseValue(id), nil
+			player := spawn(p.Args["name"].(string), p.Args["x"].(float64), p.Args["y"].(float64))
+			return player, nil
 		},
 	}
 }
@@ -175,8 +175,8 @@ func moveMutation() *graphql.Field {
 		Type: playerObject,
 		Args: args,
 		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-			move(p.Args["id"].(string), p.Args["x"].(float64), p.Args["y"].(float64))
-			return p.Args["id"], nil
+			player := move(p.Args["id"].(string), p.Args["x"].(float64), p.Args["y"].(float64))
+			return player, nil
 		},
 	}
 }
